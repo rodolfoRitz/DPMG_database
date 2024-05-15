@@ -1,0 +1,188 @@
+{{ define "main" }}
+
+<a class="td-offset-anchor"></a>
+<div class="td-content">
+	{{ .Content }}
+</div>
+
+{{ partial "selenium-clients-and-webdriver-bindings.html" . }}
+
+<div class="row justify-content-center p-5">
+  <div class="col-sm-6 py-3 ps-3 pe-0">
+    <div class="card h-100 bg-transparent border-top-0 border-start-0 border-bottom-0">
+      <div class="card-body">
+        <p class="card-title h2">
+          Selenium Server (Grid)
+        </p>
+        <p class="card-text py-3">
+          The Selenium Server is needed in order to run Remote Selenium WebDriver (Grid).
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 py-3 ps-0 pe-3">
+    <div class="card h-100 bg-transparent border-end-0 border-top-0 border-bottom-0">
+      <div class="card-body">
+        <p class="card-text">
+          Latest stable version
+          <a href="https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.16.0/selenium-server-4.16.1.jar">4.16.1</a>
+        </p>
+        <p class="card-text">
+          To use the Selenium Server in a Grid configuration see the
+          <a href="https://selenium.dev/documentation/en/grid/">documentation</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center p-5 td-box--100">
+  <div class="col-sm-6 py-3 ps-3 pe-0">
+    <div class="card h-100 bg-transparent border-top-0 border-start-0 border-bottom-0">
+      <div class="card-body">
+        <p class="card-title h2">
+          The Internet Explorer Driver Server
+        </p>
+        <p class="card-text pt-3">
+          This is required if you want to make use of the latest and greatest
+          features of the WebDriver InternetExplorerDriver.
+        </p>
+        <p class="card-text pb-3">
+          Please make sure that this is available on your <code>%PATH%</code>
+          in order for the IE Driver to work as expected.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 py-3 ps-0 pe-3">
+    <div class="card h-100 bg-transparent border-end-0 border-top-0 border-bottom-0">
+      <div class="card-body">
+        <p class="card-text">
+          Download version 4.14.0.0 for:
+        </p>
+        <p class="card-text">
+          <a href="https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.14.0/IEDriverServer_Win32_4.14.0.zip">32 bit Windows IE</a> (recommended)
+        </p>
+        <p class="card-text">
+          <a href="https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.14.0/IEDriverServer_x64_4.14.0.zip">64 bit Windows IE</a>
+        </p>
+        <p class="card-text">
+          <a href="https://github.com/SeleniumHQ/selenium/blob/trunk/cpp/iedriverserver/CHANGELOG">CHANGELOG</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-left p-5">
+  <div class="card border-0 w-100 bg-transparent">
+    <div class="card-body">
+      <h2 class="card-title">
+        Selenium IDE
+      </h2>
+      <p class="card-text w-lg-75">
+        Selenium IDE is a Chrome, Firefox and Edge plugin which records and plays
+        back user interactions with the browser. Use this to either create
+        simple scripts or assist in exploratory testing.
+      </p>
+      <p class="card-text w-lg-75">
+        Download latest released version for
+        <a href="https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd">Chrome</a>
+        or <a href="https://addons.mozilla.org/en-US/firefox/addon/selenium-ide/">Firefox</a> or
+        <a href="https://microsoftedge.microsoft.com/addons/detail/selenium-ide/ajdpfmkffanmkhejnopjppegokpogffp">
+          Edge</a>. View the <a href="https://github.com/SeleniumHQ/selenium-ide/releases">Release Notes.</a>
+      </p>
+      <p class="card-text w-lg-75">
+        Download previous IDE
+        <a href="https://addons.mozilla.org/en-GB/firefox/addon/selenium-ide/versions/">versions</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+{{ partial "selenium-nightly-builds.html" . }}
+
+<div class="row justify-content-left p-5 td-box--100">
+  <div class="card border-0 w-100 bg-transparent">
+    <div class="card-body">
+      <h2 class="card-title">C# NuGet</h2>
+      <p class="card-text w-lg-75">
+        Nuget latest release is 4.16.1 Released on December 6, 2023.
+      </p>
+      <ul>
+        <li>
+          <p>
+            <a href="https://www.nuget.org/packages/Selenium.WebDriver">WebDriver</a>
+          </p>
+        </li>
+        <li>
+          <p>
+            <a href="https://www.nuget.org/packages/Selenium.Support">Support</a>
+          </p>
+        </li>
+        <li>
+          <p>
+            <a href="https://www.nuget.org/packages/Selenium.WebDriverBackedSelenium">WebDriverBackedSelenium</a>
+            (Final version 4.1.0 Released on November 22, 2021)
+          </p>
+        </li>
+        <li>
+          <p>
+            <a href="https://www.nuget.org/packages/Selenium.RC">RC</a>
+            (Final version 3.1.0 Released on February 16, 2017)
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{{ partial "previous-releases.html" . }}
+
+<div class="row justify-content-left p-5">
+  <div class="card border-0 w-100 bg-transparent">
+    <div class="card-body">
+      <h2 class="card-title">
+        Maven Information
+      </h2>
+      <p class="card-text w-lg-75">
+        If you're using Maven or Gradle, you will find more information on
+        <a href="https://mvnrepository.com/artifact/org.seleniumhq.selenium">MVNRepository</a>.
+        When the most recent version of Selenium is not there yet, you can also check the Selenium
+        <a href="https://repo1.maven.org/maven2/org/seleniumhq/selenium/">Maven repository</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-left p-5 td-box--100">
+  <div class="card border-0 w-100 bg-transparent">
+    <div class="card-body">
+      <h2 class="card-title">
+        Ecosystem
+      </h2>
+      <p class="card-text w-lg-75">
+        Over the last decade, a large ecosystem of Open Source projects have sprouted up around
+        Selenium. Check them out at the <a href="/ecosystem">Ecosystem page</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+{{ partial "platforms-supported-by-selenium.html" . }}
+
+<div class="row justify-content-left p-5 td-box--100">
+  <div class="card border-0 w-100 bg-transparent">
+    <div class="card-body">
+      <h2 class="card-title">
+        Source Code
+      </h2>
+      <p class="card-text w-lg-75">
+        You can also find a list of the Selenium source code at our
+        <a href="https://github.com/SeleniumHQ/selenium">GitHub repository</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+{{ end }}

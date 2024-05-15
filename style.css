@@ -1,0 +1,73 @@
+body {
+    background: #f7f7f7;
+    font-family: Verdana;
+    max-width: 900px; /* Largura */
+    margin: auto; /* Espaçamento equivalente dos dois lados da página */
+}
+
+.photo {
+    border: 1px solid #505050;
+    border-radius: 50%;
+}
+
+#title, .subtitle, .post_title {
+    color: #505050;
+}
+
+#title {
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+a {
+    text-decoration: line-through;
+    color: #505050;
+}
+
+.post_title {
+    font-size: 16px;
+    font-style: italic;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.post {
+    background: #fff;
+    /* 
+    background-color: green;
+    background-image: url("ex.png");
+    background-position: top;
+
+    Estes são outros tipos de aplicação do background.
+    */
+    /* 
+    padding: 15px 10px 5px 0; - Pode ser usado tudo na mesma linha quando o caso não se repetir. */
+    padding-top: 15px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    border: 3px solid #505050; /*A borda pode ser solid, dotted(pontilhada) ou dashed(tracejada).*/
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.post_content {
+    margin: 0;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+    text-align: right;
+}
+
+.post_image {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.contacts_list {
+    list-style-type: none;
+    padding-left: 15px;
+}
+
+.contacts_list li a {
+    text-decoration: none;
+}

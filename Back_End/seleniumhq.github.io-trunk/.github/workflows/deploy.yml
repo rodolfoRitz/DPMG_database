@@ -1,0 +1,35 @@
+name: Publish Selenium Site
+
+on:
+  push:
+    branches:
+      - trunk
+
+jobs:
+  deploy:
+    if: contains(toJson(github.event.commits), '[deploy site]') == true
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.110.0'
+          extended: true
+      - name: Build
+        run: chmod +x build-site.sh && ./build-site.sh
+        env:
+          SELENIUM_CI_TOKEN: ${{secrets.SELENIUM_CI_TOKEN}}
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.SELENIUM_CI_TOKEN }}
+          publish_dir: ./website_and_docs/public
+          publish_branch: publish
+          user_name: 'Selenium CI Bot'
+          user_email: 'selenium-ci@users.noreply.github.com'
+          commit_message: ${{ github.event.head_commit.message }}
+          cname: www.selenium.dev

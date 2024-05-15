@@ -1,0 +1,15 @@
+stages:
+  - update-files
+#########################################
+##### Job necessário apenas em PROD #####
+######################################### 
+Buscando-Modificacao-Job:
+  stage: update-files
+  script:
+    - ssh transferencias-dev@$HOST_PROD "cd ~/assistido-processo-python && git pull && pip install -r requirements.txt"
+    - ssh transferencias-dev@$HOST_PROD "echo '' > /home/transferencias-dev/assistido-processo-python/nohup.out ; pkill python3.11 ; pkill chrome ; cd /home/transferencias-dev/assistido-processo-python && cat .env.prod > .env && nohup python3.11 PessoasProcessosManager.py & sleep 5 && ps -s"
+  only:
+   refs:
+     - prod
+  tags:
+    - runner-64-46-shell

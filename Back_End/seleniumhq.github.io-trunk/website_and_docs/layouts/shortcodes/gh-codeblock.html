@@ -1,0 +1,63 @@
+{{ $apiBaseUrl := .Get "apiBaseUrl" | default "https://api.github.com/repos" }}
+{{ $webBaseUrl := .Get "webBaseUrl" | default "https://github.com" }}
+{{ $org := .Get "org" | default "SeleniumHQ" }}
+{{ $repo := .Get "repo" | default "seleniumhq.github.io" }}
+{{ $branch := .Get "branch" | default "trunk" }}
+
+{{ $defaultBranchFromEnv := (getenv "SELENIUM_EXAMPLES_BRANCH") }}
+{{ if $defaultBranchFromEnv }}
+  {{ $branch = $defaultBranchFromEnv }}
+{{ end }}
+
+{{ $defaultOrgFromEnv := (getenv "SELENIUM_EXAMPLES_ORG") }}
+{{ if $defaultOrgFromEnv }}
+  {{ $org = $defaultOrgFromEnv }}
+{{ end }}
+
+{{ $defaultRepoFromEnv := (getenv "SELENIUM_EXAMPLES_REPO") }}
+{{ if $defaultRepoFromEnv }}
+  {{ $repo = $defaultRepoFromEnv }}
+{{ end }}
+
+{{ $fullPath := .Get "path" }}
+{{ $path := index (split $fullPath "#") 0 }}
+
+{{ $apiUrl := printf "%s/%s/%s/contents%s?ref=%s" $apiBaseUrl $org $repo $path $branch }}
+{{ $webUrl := printf "%s/%s/%s/blob/%s/%s" $webBaseUrl $org $repo $branch $fullPath }}
+
+{{ $slicedPath := split $path "/" }}
+{{ $language := index (last 1 (split (index (last 1 $slicedPath) 0) ".")) 0 }}
+
+{{ $githubToken := (getenv "SELENIUM_CI_TOKEN") }}
+{{ if $githubToken }}
+  {{ $toReplace := printf "://%s@" $githubToken }}
+  {{ $tokenInUrl := cond (eq $githubToken "") "://" $toReplace }}
+  {{ $apiUrlWithToken := replace $apiUrl "://" $tokenInUrl }}
+
+  {{ $apiResults := getJSON $apiUrlWithToken  }}
+  {{ $content := base64Decode $apiResults.content }}
+  {{ $codeSnippet := $content }}
+
+  {{ $parsedApiUrl := urls.Parse $webUrl }}
+  {{ with $parsedApiUrl.Fragment }}
+    {{ $codeLines := split $parsedApiUrl.Fragment "-" }}
+    {{ $fromLine := sub (int (replace (index $codeLines 0) "L" "")) 1 }}
+    {{ $toLine := int (cond (eq (len $codeLines) 1) (replace (index $codeLines 0) "L" "") (replace (index $codeLines 1) "L" "")) }}
+    {{ $numOfLines := cond (eq (sub $toLine $fromLine) 0) 1 (sub $toLine $fromLine) }}
+    {{ $splitContent := split $content "\n" }}
+    {{ $codeSnippet = delimit (first $numOfLines (after $fromLine $splitContent)) "\n" }}
+  {{ end }}
+
+  {{ highlight $codeSnippet $language }}
+
+  <div class="text-end pb-2">
+    <a href="{{- $webUrl -}}" target="_blank">
+      <i class="fas fa-external-link-alt pl-2"></i>
+        <strong>View full example on GitHub</strong>
+    </a>
+  </div>
+{{ else }}
+  {{ partial "github-content.html" }}
+{{ end }}
+
+

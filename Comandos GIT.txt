@@ -1,0 +1,18 @@
+git clone - clona o repositório (pelo codigo selecionado) - criar um arquivo no Github
+
+git status - verifica se foi feita alguma alteração (antes e depois do "add")
+git  add . - adiciona os arquivos na intermediária
+git commit -m "mensagem"
+git push - subir o commit para o repositório.
+
+git pull - puxa para sua maquina as últimas alterações do repositório
+git branch - lista todas as branchs existentes
+
+Desfazer modificações não salvas:
+git reset
+git clean -df
+git checkout -- .
+
+Remover arquivos da área de stage:
+git status
+git reset

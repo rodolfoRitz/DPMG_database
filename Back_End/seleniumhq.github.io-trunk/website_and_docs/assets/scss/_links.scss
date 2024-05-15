@@ -1,0 +1,27 @@
+.selenium-link {
+  color: $primary;
+  border-bottom: 2px solid;
+  transition: 0.3s;
+}
+
+.selenium-link:hover {
+  color: $selenium-cyan-color;
+}
+
+p > a, main a {
+  color: $primary !important;
+  border-bottom: 2px solid;
+  transition: 0.3s;
+}
+
+p > a:hover, main a:hover {
+  color: $selenium-cyan-color !important;
+}
+
+.navbar-color .navbar-nav .nav-link {
+  color: $white !important;
+  text-shadow: none;
+  :hover {
+    text-shadow: 1px 1px 2px $dark;
+  }
+}

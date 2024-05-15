@@ -1,0 +1,95 @@
+<div class="row justify-content-left p-5 td-box--100">
+  <div class="card border-0 w-100 bg-transparent">
+    <div class="card-body">
+      <h2 class="card-title">
+        Previous Releases
+      </h2>
+      <p class="card-text w-lg-75">
+        Here you can find a more complete list of Selenium
+        <!-- Link trigger modal -->
+        <a href="#previous-releases" data-bs-toggle="modal" data-bs-target="#previous-releases">releases</a>.
+        <!-- Modal -->
+        <div class="modal fade" id="previous-releases" tabindex="-1" aria-labelledby="previous-releases-label" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 class="modal-title" id="previous-releases-label">Previous Releases</h2>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {{ $.Scratch.Set "counter" 0 }}
+                {{ $url := "https://api.github.com/repos/seleniumhq/selenium/releases?per_page=100" }}
+                {{ $githubToken := (getenv "SELENIUM_CI_TOKEN") }}
+                {{ if $githubToken }}
+                  {{ $toReplace := printf "://%s@" $githubToken }}
+                  {{ $tokenInUrl := cond (eq $githubToken "") "://" $toReplace }}
+                  {{ $urlWithToken := replace $url "://" $tokenInUrl }}                
+                  {{ $releases := getJSON $urlWithToken }}
+                  {{ range sort $releases "created_at" "desc" }}
+                  <!-- Expand / Collapse -->
+                  {{ $.Scratch.Set "counter" (add ($.Scratch.Get "counter") 1) }}
+                  {{ $counter := $.Scratch.Get "counter" }}
+                  <p>
+                    <button class="btn btn-link no-focus" type="button" data-bs-toggle="collapse" data-bs-target="#release-{{ $counter }}" aria-expanded="false" aria-controls="release-{{ $counter }}">
+                      <i class="fas fa-plus-circle show-collapsed selenium-ide pe-2"></i>
+                      <i class="fas fa-minus-circle show-expanded selenium-ide pe-2"></i>
+                      <span class="-text-900 fw-bold">{{ .name }}</span>
+                    </button>
+                  </p>
+                  <div class="collapse pb-3" id="release-{{ $counter }}">
+                    <div class="card card-body">
+                      <h6 class="card-title ps-2 pb-3">
+                        <span class="selenium-ide fw-bold">Release date:</span>
+                        <span class="ps-2">
+                          <a href="{{ .html_url }}" target="_blank">
+                            {{ time.Format "January 2, 2006" .created_at }}
+                            <i class="fas fa-external-link-alt ps-2"></i>
+                          </a>
+                        </span>
+                      </h6>
+                      <div class="table-responsive">
+                        <table class="table m-0">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="selenium-ide">Name</th>
+                              <th scope="col" class="selenium-ide">Size</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {{ range .assets }}
+                            {{ $size := (div .size (mul 1024 1024)) }}
+                            <tr>
+                              <th scope="row">
+                                <p>
+                                  <a href="{{ .browser_download_url }}">{{ .name }}</a>
+                                </p>
+                              </th>
+                              <td>{{ printf "%.1f" ($size) }} MB</td>
+                            </tr>
+                            {{ end }}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  {{ end }}
+                {{ else }}
+                  {{ partial "github-content.html" }}>
+                {{ end }}
+              </div>
+              <div class="modal-footer selenium-button-container">
+                <a href="#previous-releases" class="selenium-button selenium text-uppercase fw-bold" data-bs-dismiss="modal">
+                  Close
+                  <i class="ps-3 fas fa-caret-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </p>
+    </div>
+  </div>
+</div>

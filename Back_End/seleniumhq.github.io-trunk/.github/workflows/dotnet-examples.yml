@@ -1,0 +1,62 @@
+name: Run DotNet examples
+
+on:
+  schedule:
+    - cron: '35 22 * * *'
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - trunk
+    paths:
+      - 'examples/dotnet/**'
+  push:
+    branches:
+      - trunk
+    paths:
+      - 'examples/dotnet/**'
+
+env:
+  DISPLAY: :99
+  GITHUB_TOKEN: ${{ secrets.SELENIUM_CI_TOKEN }}
+  GH_TOKEN: ${{ secrets.SELENIUM_CI_TOKEN }}
+
+jobs:
+  test_examples:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout GitHub repo
+      uses: actions/checkout@v3
+    - name: Remove driver directories Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        rm "$env:ChromeWebDriver" -r -v
+        rm "$env:EdgeWebDriver" -r -v
+        rm "$env:GeckoWebDriver" -r -v
+    - name: Remove driver directories Non-Windows
+      if: matrix.os != 'windows-latest'
+      run: |
+        sudo rm -rf $CHROMEWEBDRIVER $EDGEWEBDRIVER $GECKOWEBDRIVER
+    - name: Start Xvfb
+      if: matrix.os == 'ubuntu-latest'
+      run: Xvfb :99 &
+    - name: Set up .Net
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: 11
+    - name: Run tests
+      uses: nick-invision/retry@v2.8.3
+      with:
+        timeout_minutes: 20
+        max_attempts: 3
+        command: |
+          cd examples/dotnet/SeleniumDocs
+          dotnet test
